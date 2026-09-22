@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environments Status Editor Settings</title>
+  <style>
+    body {
+      width: 420px;
+      max-height: 560px;
+      margin: 0;
+      padding: 12px;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f3f2f1;
+      color: #323130;
+      overflow: auto;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 6px;
+      padding: 14px;
+      border: 1px solid #edebe9;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .setting-group {
+      margin-bottom: 12px;
+      padding: 10px;
+      background: #faf9f8;
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+    }
+
+    .setting-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .help-text {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #605e5c;
+      line-height: 1.4;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 22px;
+      background: #c8c6c4;
+      border-radius: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch.active { background: #0078d4; }
+
+    .toggle-switch::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle-switch.active::after { transform: translateX(22px); }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      border: 1px solid #8a8886;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      max-height: 180px;
+      overflow: auto;
+      padding: 4px;
+      border: 1px solid #edebe9;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      padding: 3px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .color-item:hover { background: #f3f2f1; }
+
+    .color-item input { margin: 0; }
+
+    .color-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      border: 1px solid rgba(0,0,0,0.3);
+    }
+
+    .color-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .default-color-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn-primary { background: #0078d4; color: #fff; }
+    .btn-primary:hover { background: #106ebe; }
+    .btn-secondary {
+      background: #fff;
+      color: #323130;
+      border: 1px solid #8a8886;
+    }
+
+    .status {
+      display: none;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .status.success {
+      display: block;
+      background: #dff6dd;
+      color: #0b6a0b;
+      border: 1px solid #9fd89f;
+    }
+
+    .status.error {
+      display: block;
+      background: #fde7e9;
+      color: #a4262c;
+      border: 1px solid #f1aeb5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Environments Status Editor</h1>
+
+    <div class="setting-group">
+      <label class="setting-label">Enable Extension</label>
+      <div class="toggle-container">
+        <div class="toggle-switch" id="enableToggle"></div>
+        <span>Show the editor on the environments wiki</span>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label" for="usersInput">Users</label>
+      <textarea id="usersInput" placeholder="One name per line"></textarea>
+      <div class="help-text">Shown in Developer / QA select lists (free text still allowed).</div>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label" for="defaultDeveloper">Default developer</label>
+      <input type="text" id="defaultDeveloper" list="defaultDeveloperList" placeholder="Select or type" />
+      <datalist id="defaultDeveloperList"></datalist>
+      <div class="help-text">Used by Claim when Developer is empty.</div>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label" for="statusesInput">Statuses</label>
+      <textarea id="statusesInput" placeholder="One status per line"></textarea>
+      <div class="help-text">Custom statuses available in the editor (select or type).</div>
+      <div class="row-2" style="margin-top: 8px;">
+        <div>
+          <label class="setting-label" for="claimStatus">Claim status</label>
+          <select id="claimStatus"></select>
+        </div>
+        <div>
+          <label class="setting-label" for="releaseStatus">Release status</label>
+          <select id="releaseStatus"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label class="setting-label">Enabled row colors</label>
+      <div class="color-grid" id="colorGrid"></div>
+      <div class="help-text">CSS colors from w3schools — pick which ones appear in the panel.</div>
+      <label class="setting-label" for="defaultInUseColor" style="margin-top: 10px;">Default color</label>
+      <select id="defaultInUseColor"></select>
+      <div class="default-color-preview">
+        <span class="color-circle" id="defaultColorCircle"></span>
+        <span id="defaultColorLabel">DarkBlue</span>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+      <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

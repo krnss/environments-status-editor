@@ -1,0 +1,15 @@
+{
+  "name": "environments-status-editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild": "node src/scripts/update-version.js",
+    "build": "vite build && vite build --config vite.popup.config.js",
+    "postbuild": "node src/scripts/copy-popup.js",
+    "dev": "vite build --watch"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

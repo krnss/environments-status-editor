@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Environments Status Editor",
+  "version": "1.0.3",
+  "description": "Edit Azure DevOps wiki environment status table without raw HTML",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Environments Status Editor Settings"
+  },
+  "host_permissions": [
+    "https://dev.azure.com/*",
+    "https://timepoint-vsts.visualstudio.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://dev.azure.com/*",
+        "https://timepoint-vsts.visualstudio.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
