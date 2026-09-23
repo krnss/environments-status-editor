@@ -7,8 +7,10 @@ Open the wiki page → click **Edit** → use the floating panel → click **App
 ## Features
 
 - Detects the environments wiki edit page and injects a floating editor panel
-- Parses the HTML table from the wiki textarea
-- Edit **Branch**, **Task**, **Developer**, **QA**, **Status**, and **row color**
+- Parses every environments HTML table on the wiki page
+- Edit **Repository**, **Branch**, **work item / task title**, **Developer**, **QA**, **Status**, and **row color**
+- Search and filter by **All / In use / Not in use**
+- Apply rewrites only the row you changed; other rows keep their original HTML
 - Color circles in the env summary and color picker (W3Schools CSS named colors)
 - Developer / QA / Status: select from configured lists or type free text
 - Writes updated HTML back so the ADO preview refreshes
@@ -43,9 +45,9 @@ npm run build
 4. Expand an environment, change fields, click **Apply**
 5. Click **Save** on the wiki page
 
-### Release shortcut
+### Claim shortcut
 
-**Release** sets Status to `Not In use`, clears Task / Developer / QA, and clears row color.
+**Claim** sets Status to `In use` (or the configured claim status), sets Developer to your default name, and sets the default row color — even when those fields already have values. If the clipboard contains a branch like `feat/TP-11104-expenses-mileage-updates`, Claim fills Branch with that text, Work item with `11104`, and Task title with `Expenses mileage updates`. QA stays as it is. Nothing is written until **Apply**.
 
 ## Settings
 

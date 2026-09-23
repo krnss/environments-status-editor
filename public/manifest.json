@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Environments Status Editor",
-  "version": "1.0.3",
+  "version": "1.0.7",
   "description": "Edit Azure DevOps wiki environment status table without raw HTML",
   "permissions": [
-    "storage"
+    "storage",
+    "clipboardRead"
   ],
   "action": {
     "default_popup": "popup.html",

@@ -180,11 +180,27 @@ export function colorPreviewStyle(name) {
   return `background: ${bg}; border: 1px solid rgba(0,0,0,0.35);`;
 }
 
+function normalizeHex(color) {
+  const known = getCssColor(color);
+  if (known) return known.hex;
+  const value = String(color || "").trim();
+  const match = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (!match) return null;
+  let hex = match[1];
+  if (hex.length === 3) {
+    hex = hex
+      .split("")
+      .map((ch) => ch + ch)
+      .join("");
+  }
+  return `#${hex}`;
+}
+
 /** Prefer white text on dark backgrounds, black on light. */
 export function textColorForBackground(name) {
-  const known = getCssColor(name);
-  if (!known) return "white";
-  const hex = known.hex.replace("#", "");
+  const hexValue = normalizeHex(name);
+  if (!hexValue) return "white";
+  const hex = hexValue.replace("#", "");
   const r = parseInt(hex.slice(0, 2), 16);
   const g = parseInt(hex.slice(2, 4), 16);
   const b = parseInt(hex.slice(4, 6), 16);
